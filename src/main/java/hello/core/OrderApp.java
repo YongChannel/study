@@ -7,6 +7,8 @@ import hello.core.member.MemberServiceImpl;
 import hello.core.order.Order;
 import hello.core.order.OrderService;
 import hello.core.order.OrderServiceImpl;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class OrderApp {
     public static void main(String[] args) {
@@ -14,9 +16,16 @@ public class OrderApp {
         //OrderService orderService = new OrderServiceImpl();
 
         //관심사 분리
-        AppConfig appConfig = new AppConfig();
-        MemberService memberService = appConfig.memberService();
-        OrderService orderService = appConfig.orderService();
+        //AppConfig appConfig = new AppConfig();
+        //MemberService memberService = appConfig.memberService();
+        //OrderService orderService = appConfig.orderService();
+
+        //스프링 전환
+        //ApplicationContext: 스프링 컨테이너
+        //applicationContext.getBean: 스프링 빈 조회
+        ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
+        MemberService memberService = applicationContext.getBean("memberService", MemberService.class);
+        OrderService orderService = applicationContext.getBean("orderService", OrderService.class);
 
         Long memberId = 1L;
         Member member = new Member(memberId, "memberA", Grade.VIP);
